@@ -11,6 +11,7 @@ if command -v brew 2>/dev/null; then
   brew install starship direnv
 fi
 
+TOPLEVEL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && git rev-parse --show-toplevel)"
 INSTALLDIR=${HOME}
 echo "Install Symlinked files..."
 echo "Using INSTALLDIR = $INSTALLDIR"
@@ -27,7 +28,7 @@ for myfile in $(ls -A dotdir/ ); do
 	fi
 
   # Create symlinks for our config files
-	ln -s $PWD/dotdir/$myfile $INSTALLDIR/$myfile
+	ln -s $TOPLEVEL_DIR/dotdir/$myfile $INSTALLDIR/$myfile
 
 done
 
@@ -35,20 +36,20 @@ echo "Apply specific patches..."
 
 # Gitconfig patch
 echo -n "Gitconfig patch.. "
-cat $PWD/patches/gitconfig.patch >> $INSTALLDIR/.gitconfig
+cat $TOPLEVEL_DIR/patches/gitconfig.patch >> $INSTALLDIR/.gitconfig
 echo "done"
 
 # Starship prompt
 echo -n "Starship Config.. "
 mkdir -p $INSTALLDIR/.config
-cat $PWD/patches/starship.toml.full > $INSTALLDIR/.config/starship.toml
-cat $PWD/patches/bash-prompt.patch > $INSTALLDIR/.bashrc.d/999-bash-prompt
+cat $TOPLEVEL_DIR/patches/starship.toml.full > $INSTALLDIR/.config/starship.toml
+cat $TOPLEVEL_DIR/patches/bash-prompt.patch > $INSTALLDIR/.bashrc.d/999-bash-prompt
 echo "done"
 
 # Direnv config
 echo -n "Direnv Config.. "
 mkdir -p $INSTALLDIR/.config/direnv
-cat $PWD/patches/direnvrc.full $INSTALLDIR/.config/direnv/direnvrc
+cat $TOPLEVEL_DIR/patches/direnvrc.full $INSTALLDIR/.config/direnv/direnvrc
 echo "done"
 
 exit 0
