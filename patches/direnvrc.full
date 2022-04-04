@@ -1,0 +1,3 @@
+if [ -r ${HOME}/.shell-libs/envtools.sh ]; then
+  source ${HOME}/.shell-libs/envtools.sh
+fi

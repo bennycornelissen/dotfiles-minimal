@@ -1,0 +1,28 @@
+### osx ###
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# IntelliJ settings
+*.iml
+
+# VSCode Java stuff
+.project
+.settings
+.settings/**
+
+# Linux settings
+*~
+*.swp
+
+# This repo
+dotdir/bin
+dotdir/.shell-libs

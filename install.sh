@@ -7,7 +7,12 @@ echo "Getting Shell Libs and Shell Scripts Git repos"
 git clone --depth=1 https://github.com/bennycornelissen/shell-libs.git dotdir/.shell-libs
 git clone --depth=1 https://github.com/bennycornelissen/shell-scripts.git dotdir/bin
 
+if command -v brew 2>/dev/null; then
+  brew install starship direnv
+fi
+
 INSTALLDIR=${HOME}
+echo "Install Symlinked files..."
 echo "Using INSTALLDIR = $INSTALLDIR"
 
 for myfile in $(ls -A dotdir/ ); do
@@ -26,16 +31,24 @@ for myfile in $(ls -A dotdir/ ); do
 
 done
 
-# Clean up old shell config files we don't want
-  V_SHELLCONFIGS_DONOTWANT=".profile"
-  for myfile in ${V_SHELLCONFIGS_DONOTWANT}; do
-    if [ -h $INSTALLDIR/$myfile ]; then
-      unlink $INSTALLDIR/$myfile
-  	elif [ -f $INSTALLDIR/$myfile ]; then
-      mv $INSTALLDIR/$myfile $INSTALLDIR/${myfile}.old 2> /dev/null
-  	elif [ -d $INSTALLDIR/$myfile ]; then
-      mv $INSTALLDIR/$myfile $INSTALLDIR/${myfile}.old 2> /dev/null
-  	fi
-  done
+echo "Apply specific patches..."
+
+# Gitconfig patch
+echo -n "Gitconfig patch.. "
+cat $PWD/patches/gitconfig.patch >> $INSTALLDIR/.gitconfig
+echo "done"
+
+# Starship prompt
+echo -n "Starship Config.. "
+mkdir -p $INSTALLDIR/.config
+cat $PWD/patches/starship.toml.full > $INSTALLDIR/.config/starship.toml
+cat $PWD/patches/bash-prompt.patch > $INSTALLDIR/.bashrc.d/999-bash-prompt
+echo "done"
+
+# Direnv config
+echo -n "Direnv Config.. "
+mkdir -p $INSTALLDIR/.config/direnv
+cat $PWD/patches/direnvrc.full $INSTALLDIR/.config/direnv/direnvrc
+echo "done"
 
 exit 0

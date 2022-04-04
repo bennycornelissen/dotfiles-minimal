@@ -126,10 +126,6 @@
   status = auto
   branch = auto
 
-[apply]
-  # trailing whitespace.
- #  whitespace = fix
-
 [advice]
   # disables the introductionary explanations and hints
   statusHints = false

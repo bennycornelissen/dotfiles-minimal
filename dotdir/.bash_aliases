@@ -51,10 +51,94 @@ else
   alias tmattach='tmux new-session -ADs'
 fi
 
+# copy KUBECONFIG file to relevant config namespace path
+install_kubeconfig() {
+  if [[ $# -eq 1 ]]; then
+    local config_namespace=${ENVTOOLS_CONFIG_NAMESPACE?ERROR: Cannot determine Config Namespace}
+    local kubeconfig_file=${1}
+  else
+    local config_namespace=${1}
+    local kubeconfig_file=${2}
+  fi
 
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-. $(brew --prefix)/etc/bash_completion
-fi
+  local config_dir="${HOME}/.env/config/${config_namespace}"
+
+  if [[ ! -d ${config_dir} ]]; then
+    echo "ERROR: Config Namespace does not exist"
+    return 1
+  fi
+
+  if [[ ! -r ${kubeconfig_file} ]]; then
+    echo "ERROR: Cannot read kubeconfig file in ${kubeconfig_file}"
+    return 1
+  fi
+
+  local kubeconfig_filename=$(basename ${kubeconfig_file} | sed "s/\.yaml$//")
+
+  cp ${kubeconfig_file} ${config_dir}/kubeconfig/${kubeconfig_filename}
+}
+
+# List available KUBECONFIG files
+kl() {
+  if [[ $# -eq 0 ]]; then
+    local config_namespace=${ENVTOOLS_CONFIG_NAMESPACE?ERROR: Cannot determine Config Namespace}
+  else
+    local config_namespace=${1}
+  fi
+
+  local config_dir="${HOME}/.env/config/${config_namespace}"
+
+  if [[ ! -d ${config_dir} ]]; then
+    echo "ERROR: Config Namespace does not exist"
+    return 1
+  fi
+
+  ls ${config_dir}/kubeconfig/
+
+}
+
+
+# Select KUBECONFIG file -- allows to use multiple clusters in different terminals at the same time
+ks() {
+  case $# in
+    1)
+      local config_namespace=${ENVTOOLS_CONFIG_NAMESPACE?ERROR: Cannot determine Config Namespace}
+      local kubeconfig_id=${1}
+      ;;
+    2)
+      local config_namespace=${1}
+      local kubeconfig_id=${2}
+      ;;
+    *)
+      echo "USAGE: $0 <config namespace> <Kubeconfig ID>"
+      return 1
+      ;;
+  esac
+
+  local config_dir="${HOME}/.env/config/${config_namespace}"
+
+  if [[ ! -d ${config_dir} ]]; then
+    echo "ERROR: Config Namespace does not exist"
+    return 1
+  fi
+
+  local kubeconfig="${config_dir}/kubeconfig/${kubeconfig_id}"
+
+  if [[ ! -r ${kubeconfig} ]]; then
+    echo "ERROR: Kubeconfig ${kubeconfig_id} not found"
+    return 1
+  fi
+
+  export KUBECONFIG=${kubeconfig}
+  kubeon
+}
+
+_ks() {
+  COMPREPLY=($(compgen -W "$(kl | tr ' ' '\n')" -- ${COMP_WORDS[COMP_CWORD]}))
+}
+
+complete -o nospace -F _ks ks
+
 
 # Load FZF if present
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
@@ -68,8 +152,6 @@ fi
 if which kustomize &>/dev/null; then
   . <(kustomize completion bash)
 fi
-
-[[ -r "$HOME/.bash_profile.local" ]] && source "$HOME/.bash_profile.local" # Load .profile if it exists
 
 eval "$(direnv hook bash)"
 export DIRENV_LOG_FORMAT=

@@ -1,0 +1,132 @@
+## Default format
+# format = """
+# $username\
+# $hostname\
+# $shlvl\
+# $singularity\
+# $kubernetes\
+# $directory\
+# $vcsh\
+# $git_branch\
+# $git_commit\
+# $git_state\
+# $git_metrics\
+# $git_status\
+# $hg_branch\
+# $docker_context\
+# $package\
+# $cmake\
+# $cobol\
+# $dart\
+# $deno\
+# $dotnet\
+# $elixir\
+# $elm\
+# $erlang\
+# $golang\
+# $helm\
+# $java\
+# $julia\
+# $kotlin\
+# $lua\
+# $nim\
+# $nodejs\
+# $ocaml\
+# $perl\
+# $php\
+# $purescript\
+# $python\
+# $rlang\
+# $red\
+# $ruby\
+# $rust\
+# $scala\
+# $swift\
+# $terraform\
+# $vlang\
+# $vagrant\
+# $zig\
+# $nix_shell\
+# $conda\
+# $memory_usage\
+# $aws\
+# $gcloud\
+# $openstack\
+# $env_var\
+# $crystal\
+# $custom\
+# $cmd_duration\
+# $line_break\
+# $jobs\
+# $battery\
+# $time\
+# $status\
+# $shell\
+# $character"""
+
+
+format = """
+$username\
+$hostname\
+$shlvl\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+$package\
+$golang\
+$helm\
+$java\
+$nodejs\
+$python\
+$terraform\
+$vagrant\
+$kubernetes\
+$aws\
+$gcloud\
+$env_var\
+$custom\
+$cmd_duration\
+$line_break\
+$jobs\
+$battery\
+$time\
+$status\
+$shell\
+$character"""
+
+# Inserts a blank line between shell prompts
+add_newline = true
+
+[kubernetes]
+format = ' [\[](white)[⎈ ](blue)[$context](red):[\($namespace\)](dimmed green)[\]](white)'
+disabled = false
+
+[aws]
+format = ' [\[](white)[$symbol($profile)(\($region\))(\[$duration\])]($style)[\]](white)'
+symbol = "☁️  AWS "
+
+[gcloud]
+format = ' [\[](white)[$symbol$account(@$domain)(\($project\))]($style)[\]](white)'
+symbol = "☁️  GCP "
+
+[jobs]
+disabled = true
+
+[username]
+style_user = "white bold"
+style_root = "red bold"
+format = "[$user]($style) "
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = true
+format =  "at [$hostname]($style) "
+style = "bold green"
+disabled = false
+
+[directory]
+format = "in [$path]($style) "
