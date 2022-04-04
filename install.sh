@@ -2,21 +2,24 @@
 set -e
 
 umask 0027
+TOPLEVEL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && git rev-parse --show-toplevel)"
+INSTALLDIR=${HOME}
+echo "
+Using TOPLEVEL_DIR = $TOPLEVEL_DIR
+Using INSTALLDIR = $INSTALLDIR
+"
 
 echo "Getting Shell Libs and Shell Scripts Git repos"
-git clone --depth=1 https://github.com/bennycornelissen/shell-libs.git dotdir/.shell-libs
-git clone --depth=1 https://github.com/bennycornelissen/shell-scripts.git dotdir/bin
+git clone --depth=1 https://github.com/bennycornelissen/shell-libs.git $TOPLEVEL_DIR/dotdir/.shell-libs
+git clone --depth=1 https://github.com/bennycornelissen/shell-scripts.git $TOPLEVEL_DIR/dotdir/bin
 
 if command -v brew 2>/dev/null; then
   brew install starship direnv
 fi
 
-TOPLEVEL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && git rev-parse --show-toplevel)"
-INSTALLDIR=${HOME}
 echo "Install Symlinked files..."
-echo "Using INSTALLDIR = $INSTALLDIR"
 
-for myfile in $(ls -A dotdir/ ); do
+for myfile in $(ls -A $TOPLEVEL_DIR/dotdir/ ); do
 
   echo "$myfile"
 
