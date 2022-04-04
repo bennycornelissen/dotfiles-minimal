@@ -18,6 +18,8 @@ echo "Using INSTALLDIR = $INSTALLDIR"
 
 for myfile in $(ls -A dotdir/ ); do
 
+  echo "$myfile"
+
   # Clean up old symlinks and backup existing config files
 	if [ -h $INSTALLDIR/$myfile ]; then
 		unlink $INSTALLDIR/$myfile
@@ -49,7 +51,7 @@ echo "done"
 # Direnv config
 echo -n "Direnv Config.. "
 mkdir -p $INSTALLDIR/.config/direnv
-cat $TOPLEVEL_DIR/patches/direnvrc.full $INSTALLDIR/.config/direnv/direnvrc
+cat $TOPLEVEL_DIR/patches/direnvrc.full > $INSTALLDIR/.config/direnv/direnvrc
 echo "done"
 
 exit 0
