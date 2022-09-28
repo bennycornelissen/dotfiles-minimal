@@ -83,7 +83,7 @@
   clean-merged = "!git branch --merged | grep -v '\\^\\*\\|main\\|master' | xargs -n 1 git branch -d"
 
   # create PR to master quickly
-  prnew = !sh -c 'hub pull-request -b ${GIT_MAIN_BRANCH-master}'
+  prnew = !sh -c 'hub pull-request -b $(git mainbranch)'
 
   # clean up after PR has been merged
   # prdone = !sh -c 'git co ${1-master} && git up && git clean-merged'
