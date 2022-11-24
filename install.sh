@@ -10,8 +10,8 @@ Using INSTALLDIR = $INSTALLDIR
 "
 
 echo "Getting Shell Libs and Shell Scripts Git repos"
-git clone --depth=1 https://github.com/bennycornelissen/shell-libs.git $TOPLEVEL_DIR/dotdir/.shell-libs
-git clone --depth=1 https://github.com/bennycornelissen/shell-scripts.git $TOPLEVEL_DIR/dotdir/bin
+[[ ! -d $TOPLEVEL_DIR/dotdir/.shell-libs ]] && git clone --depth=1 https://github.com/bennycornelissen/shell-libs.git $TOPLEVEL_DIR/dotdir/.shell-libs
+[[ ! -d $TOPLEVEL_DIR/dotdir/bin ]] && git clone --depth=1 https://github.com/bennycornelissen/shell-scripts.git $TOPLEVEL_DIR/dotdir/bin
 
 if command -v brew 2>/dev/null; then
   brew install starship direnv
