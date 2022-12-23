@@ -1,11 +1,11 @@
 [core]
-	excludesfile = ~/.gitignore_global
+  excludesfile = ~/.gitignore_global
   editor = vim
   pager = cat
 [branch]
   autosetupmerge = always
 [push]
-	default = current
+  default = current
 [alias]
   # short aliases
   st = status
@@ -130,7 +130,7 @@
   # disables the introductionary explanations and hints
   statusHints = false
 [pull]
-	rebase = true
+  rebase = true
 [diff]
   tool=vimdiff
 [merge]
@@ -143,7 +143,7 @@
   clean = git-media-clean %f
   smudge = git-media-smudge %f
 [filter "lfs"]
-	required = true
-	clean = git-lfs clean %f
+  required = true
+  clean = git-lfs clean %f
   smudge = git-lfs smudge %f
 
