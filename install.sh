@@ -62,4 +62,12 @@ mkdir -p $INSTALLDIR/.config/direnv
 cat $TOPLEVEL_DIR/patches/direnvrc.full >$INSTALLDIR/.config/direnv/direnvrc
 echo "done"
 
+if [[ -n ${CODESPACE_NAME} ]]; then
+  cat <<EOT >>${INSTALLDIR}/.bashrc
+for file in "$(ls ${HOME}/.bashrc.d/*)"; do
+  source ${file}
+done
+EOT
+fi
+
 exit 0
