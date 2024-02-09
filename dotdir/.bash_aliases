@@ -3,7 +3,6 @@ if [ -r ${HOME}/.shell-functions.sh ]; then
   source ${HOME}/.shell-functions.sh
 fi
 
-
 # Load envtools
 if [ -r ${HOME}/.shell-libs/envtools.sh ]; then
   source ${HOME}/.shell-libs/envtools.sh
@@ -13,7 +12,6 @@ fi
 if [ -r ${HOME}/.shell-libs/envtools-completion-bash.sh ]; then
   source ${HOME}/.shell-libs/envtools-completion-bash.sh
 fi
-
 
 # Set PATH. On Linux, check for Linuxbrew
 if [[ $(uname) == "Linux" ]] && [[ -d /home/linuxbrew/.linuxbrew/bin ]]; then
@@ -38,7 +36,7 @@ alias kc='kubectx'
 alias kns='kubens'
 
 # If Github's 'hub' is installed, alias 'git' to it
-if which hub &> /dev/null ; then
+if which hub &>/dev/null; then
   alias git=hub
 fi
 
@@ -97,7 +95,6 @@ kl() {
 
 }
 
-
 # Select KUBECONFIG file -- allows to use multiple clusters in different terminals at the same time
 ks() {
   case $# in
@@ -139,7 +136,6 @@ _ks() {
 
 complete -o nospace -F _ks ks
 
-
 # Load FZF if present
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
@@ -156,6 +152,11 @@ fi
 eval "$(direnv hook bash)"
 export DIRENV_LOG_FORMAT=
 
+if [[ -n ${CODESPACE_NAME} ]]; then
+  for file in "${HOME}/.bashrc.d/"*; do
+    source ${file}
+  done
+fi
+
 # make sure loading of bash_profile exits with 0, even if no bash_profile.local exists
 true
-
