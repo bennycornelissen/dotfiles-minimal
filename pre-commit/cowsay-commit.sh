@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # shellcheck disable=2086,2155
 set -euo pipefail
-set -x
+
 readonly commit_message_file="${1?ERROR: Argument missing}"
 readonly tmpdir="$(mktemp -d)"
 readonly tmpfile="${tmpdir}/commit-temp"
