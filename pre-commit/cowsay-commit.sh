@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
-# shellcheck disable=2086
+# shellcheck disable=2086,2155
 set -euo pipefail
-
+set -x
 readonly commit_message_file="${1?ERROR: Argument missing}"
 readonly tmpdir="$(mktemp -d)"
 readonly tmpfile="${tmpdir}/commit-temp"
+
+readonly cowfiles="${tmpdir}/cowfiles"
+cowsay -l | tail -n +2 | tr ' ' '\n' >${cowfiles}
+readonly random_cow="$(shuf -n 1 ${cowfiles})"
 
 cleanup_on_exit() {
   if [[ -d ${tmpdir} ]]; then
@@ -16,6 +20,6 @@ cleanup_on_exit() {
 
 trap cleanup_on_exit EXIT
 
-cat ${commit_message_file} | cowsay >"${tmpfile}"
+cat ${commit_message_file} | cowsay -f ${random_cow} >"${tmpfile}"
 
 cp ${tmpfile} ${commit_message_file}
