@@ -152,7 +152,7 @@ fi
 eval "$(direnv hook bash)"
 export DIRENV_LOG_FORMAT=
 
-if [[ -n ${CODESPACE_NAME} ]]; then
+if [[ -n ${CODESPACE_NAME} || -n ${GITPOD_ENVIRONMENT_ID} ]]; then
   for file in "${HOME}/.bashrc.d/"*; do
     source ${file}
   done
