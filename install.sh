@@ -54,6 +54,7 @@ echo -n "Starship Config.. "
 mkdir -p $INSTALLDIR/.config
 cat $TOPLEVEL_DIR/patches/starship.toml.full >$INSTALLDIR/.config/starship.toml
 cat $TOPLEVEL_DIR/patches/bash-prompt.patch >$INSTALLDIR/.bashrc.d/999-bash-prompt
+cat $TOPLEVEL_DIR/patches/bash-prompt.patch >>$INSTALLDIR/.bashrc
 echo "done"
 
 # Direnv config
