@@ -16,10 +16,14 @@ fi
 # Set PATH. On Linux, check for Linuxbrew
 if [[ $(uname) == "Linux" ]] && [[ -d /home/linuxbrew/.linuxbrew/bin ]]; then
   export PATH=~/bin:/home/linuxbrew/.linuxbrew/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH
-elif [[ $(uname) == "Darwin" ]] && [[ $(sw_vers -productVersion) =~ 12.* ]]; then
+elif [[ $(uname) == "Darwin" ]] && [[ $(sw_vers -productVersion | cut -d'.' -f1) -ge 12 ]]; then
   export PATH=~/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH
 else
   export PATH=~/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH
+fi
+
+if [[ -d "${HOME}/.local/bin" ]]; then
+  export PATH=${HOME}/.local/bin:$PATH
 fi
 
 # Global exports
