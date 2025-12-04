@@ -1,0 +1,12 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+- repo: local
+  hooks:
+    - id: cowsay-commit
+      name: cowsay-commit
+      stages: [prepare-commit-msg]
+      language: script
+      entry: ./pre-commit/cowsay-commit.sh
+      files: ''
+      verbose: false
